@@ -331,6 +331,7 @@ set(TARGET_CORE_SOURCES
     src/pipeline/datatype/ImageAlignConfig.cpp
     src/pipeline/datatype/CameraControl.cpp
     src/pipeline/datatype/NNData.cpp
+    src/pipeline/datatype/DetectionData.cpp
     src/pipeline/datatype/ImgDetections.cpp
     src/pipeline/datatype/SpatialImgDetections.cpp
     src/pipeline/datatype/SystemInformation.cpp
@@ -856,6 +857,8 @@ endif()
 if(DEPTHAI_XTENSOR_SUPPORT)
     target_compile_definitions(${TARGET_CORE_NAME} PUBLIC DEPTHAI_XTENSOR_SUPPORT)
     target_link_libraries(${TARGET_CORE_NAME} PUBLIC xtensor)
+    set(DEPTHAI_XTENSOR_SUPPORT ON)
+    message(STATUS "xtensor support is enabled")
 endif()
 
 # Specify available FW
