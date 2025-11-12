@@ -14,11 +14,10 @@ struct Detection {
     float score = 0.0f; // Confidence score
     int label = 0;      // Class label
     std::array<float, 4> bbox; // Bounding box [xmin, ymin, xmax, ymax] normalized [0.0, 1.0]
-    std::vector<float> keypoints;       // Flattened keypoints [x0, y0, x1, y1, ...]
-    std::vector<float> keypoint_scores; // Confidence scores for each keypoint
+    std::vector<float> keypoints;     // Flattened keypoints [x0, y0, x1, y1, ...]
 };
 
-DEPTHAI_SERIALIZE_EXT(Detection, score, label, bbox, keypoints, keypoint_scores);
+DEPTHAI_SERIALIZE_EXT(Detection, score, label, bbox, keypoints);
 
 /**
  * DetectionData message. Carries YOLO detection results.
@@ -35,25 +34,12 @@ class DetectionData : public Buffer {
      * @param detections Vector of detection results
      */
     DetectionData(const std::vector<Detection>& detections);
-    
-    /**
-     * Construct DetectionData message with image dimensions.
-     * @param detections Vector of detection results
-     * @param width Image width in pixels
-     * @param height Image height in pixels
-     */
-    DetectionData(const std::vector<Detection>& detections, int width, int height);
 
     virtual ~DetectionData();
 
     /// Vector of detections
     std::vector<Detection> detections;
     
-    /// Original image width (optional, for denormalization)
-    int imageWidth = 0;
-    
-    /// Original image height (optional, for denormalization)
-    int imageHeight = 0;
 
     void serialize(std::vector<std::uint8_t>& metadata, DatatypeEnum& datatype) const override;
 
@@ -90,8 +76,7 @@ class DetectionData : public Buffer {
      */
     std::vector<std::vector<float>> toFlatFormat(size_t n_keypoints = 0) const;
 
-    DEPTHAI_SERIALIZE(DetectionData, Buffer::sequenceNum, Buffer::ts, Buffer::tsDevice, 
-                      detections, imageWidth, imageHeight);
+    DEPTHAI_SERIALIZE(DetectionData, Buffer::sequenceNum, Buffer::ts, Buffer::tsDevice, detections);
 };
 
 }  // namespace dai

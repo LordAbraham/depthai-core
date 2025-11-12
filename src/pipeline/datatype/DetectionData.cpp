@@ -5,13 +5,10 @@
 
 namespace dai {
 
-DetectionData::DetectionData() : imageWidth(0), imageHeight(0) {}
+DetectionData::DetectionData() {}
 
 DetectionData::DetectionData(const std::vector<Detection>& detections) 
-    : detections(detections), imageWidth(0), imageHeight(0) {}
-
-DetectionData::DetectionData(const std::vector<Detection>& detections, int width, int height)
-    : detections(detections), imageWidth(width), imageHeight(height) {}
+    : detections(detections) {}
 
 DetectionData::~DetectionData() = default;
 
